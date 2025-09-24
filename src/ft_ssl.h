@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_ssl.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 11:37:43 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/09/24 13:09:48 by edfirmin         ###   ########.fr       */
+/*   Created: 2025/09/24 12:46:59 by edfirmin          #+#    #+#             */
+/*   Updated: 2025/09/24 12:48:00 by edfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#ifndef FT_SSL_H
+# define FT_SSL_H
 
-int main(int ac, char** av){
-    if (ac < 2){
-        mess_error(0, NULL);
-		return (0);
-	}
-    else if (check_com(av[1]) == 2){
-        mess_error(667, av[1]);
-        return (0);
-    }
-    // printf ("c'est good");
-    void (*fonc[])(char **) = {
-        md5,
-        sha256
-    };
-    fonc[0] (&av[2]);
-    return (1);
-}
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+void    mess_error(int k, char *c);
+int     check_com(char *str);
+void    md5(char **sstr);
+void    sha256(char **sstr);
+
+#endif
