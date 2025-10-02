@@ -6,7 +6,7 @@
 /*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:37:43 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/09/24 13:09:48 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/09/30 13:06:32 by edfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ int main(int ac, char** av){
         md5,
         sha256
     };
-    fonc[0] (&av[2]);
+    char **flags;
+
+    int i = get_flags(&flags, &av[2]);
+    printf("i = %d\n", i);
+    int j = 0;
+    while (j < i){
+        printf("flag = %s\n", flags[j]);
+        j++;
+    }
+    // tab_free(flags);
+    printf("la suite: %s\n", av[i + 2]);
+    fonc[0] (&av[i + 2]);
     return (1);
 }
