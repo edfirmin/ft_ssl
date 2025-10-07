@@ -1,16 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   md5.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/17 12:27:20 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/10/07 15:16:55 by edilson          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+ * Implémentation MD5 basée sur la RFC 1321
+ * Compile avec : gcc -O2 -Wall md5.c -o md5
+ */
 
-#include "ft_ssl.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define LEFTROTATE(x, n) (((x) << (n)) | ((x) >> (32-(n))))
 
 static const uint32_t r[64] = {
     7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,
@@ -24,19 +23,13 @@ uint32_t fonc_K(int i){
     return (4294967296 * v);// 4294967296 == 2^32
 }
 
-// uint32_t leftrotate (x, c){
-//     return (x << c) | (x >> (32-c));
-// }
-
-#define leftrotate(x, c) (((x) << (c)) | ((x) >> (32-(c))))
-
-void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
+void md5(const uint8_t *msg, size_t len, uint8_t digest[16]) {
     uint32_t a0 = 0x67452301;// valeur arbitaire du RFC
     uint32_t b0 = 0xefcdab89;// pareil
     uint32_t c0 = 0x98badcfe;// pareil
     uint32_t d0 = 0x10325476;// pareil
 
-    int new_len = len + 1;//
+    size_t new_len = len + 1;//
     while (new_len % 64 != 56) new_len++;// pour setup les remplissage de "0" 
     uint8_t *msg_pad = calloc(new_len + 8, 1);//
 
@@ -46,7 +39,8 @@ void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
     uint64_t bits_len = (uint64_t)len * 8;
     memcpy(msg_pad + new_len, &bits_len, 8);
 
-    for (int offset = 0; offset < new_len; offset += 64) {
+    /* Traitement par blocs de 512 bits */
+    for (size_t offset = 0; offset < new_len; offset += 64) {
         uint32_t *w = (uint32_t*)(msg_pad + offset);
 
         uint32_t A = a0, B = b0, C = c0, D = d0;
@@ -69,7 +63,7 @@ void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
             uint32_t tmp = D;
             D = C;
             C = B;
-            B = leftrotate((F + A + fonc_K(i) + w[g]), r[i]) + B;
+            B = LEFTROTATE(F + A + fonc_K(i) + w[g], r[i]) + B;
             A = tmp;
         }  
         a0 += A;
@@ -78,10 +72,23 @@ void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
         d0 += D;
     }
 
+    free(msg_pad);
     memcpy(digest, &a0, 4);
     memcpy(digest + 4, &b0, 4);
     memcpy(digest + 8, &c0, 4);
     memcpy(digest+12, &d0, 4);
-    free(msg_pad);
 }
 
+int main() {
+    const char *msg = "42 is nice\n";
+    uint8_t result[16];
+
+    md5((const uint8_t*)msg, strlen(msg), result);
+
+    printf("MD5(\"%s\") = ", msg);
+    for (int i = 0; i < 16; i++)
+        printf("%02x", result[i]);
+    printf("\n");
+
+    return (0);
+}

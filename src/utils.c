@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:26:54 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/09/30 13:01:35 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:36:54 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+
+void	ft_bzero(void *s, size_t n){
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((char *)s)[i] = 0;
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size){
+	void	*mem;
+
+	if (count == 0 || size == 0)
+	{
+		mem = malloc(0);
+		return (mem);
+	}
+	mem = malloc(count * size);
+	if (!mem)
+		return (0);
+	ft_bzero(mem, count * size);
+	return (mem);
+}
 
 int ft_strlen(char *str){
     int i = 0;
