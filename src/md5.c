@@ -6,7 +6,7 @@
 /*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:27:20 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/10/07 15:16:55 by edilson          ###   ########.fr       */
+/*   Updated: 2025/10/09 13:42:37 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
     uint32_t c0 = 0x98badcfe;// pareil
     uint32_t d0 = 0x10325476;// pareil
 
-    int new_len = len + 1;//
+    int new_len = len + 1;//pareil
     while (new_len % 64 != 56) new_len++;// pour setup les remplissage de "0" 
-    uint8_t *msg_pad = calloc(new_len + 8, 1);//
+    uint8_t *msg_pad = calloc(new_len + 8, 1);// pareil
 
     memcpy(msg_pad, msg, len);
     msg_pad[len] = 0x80;  // pour mettre un "1" devant
@@ -71,7 +71,7 @@ void md5(const uint8_t *msg, int len, uint8_t digest[16]) {
             C = B;
             B = leftrotate((F + A + fonc_K(i) + w[g]), r[i]) + B;
             A = tmp;
-        }  
+        }
         a0 += A;
         b0 += B;
         c0 += C;
