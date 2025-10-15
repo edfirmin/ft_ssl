@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
+/*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:37:43 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/10/07 15:37:47 by edilson          ###   ########.fr       */
+/*   Updated: 2025/10/15 10:33:21 by edfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int main(int ac, char** av){
         j++;
     }
     // tab_free(flags);
-    uint8_t result[16];
-    md5((const uint8_t*)av[i + 2], ft_strlen(av[i + 2]), result);
+    __uint8_t result[16];
+    md5((const __uint8_t*)av[i + 2], ft_strlen(av[i + 2]), result);
 
     printf("MD5(\"%s\") = ", av[i + 2]);
     for (int r = 0; r < 16; r++)

@@ -6,7 +6,7 @@
 #    By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/17 11:37:51 by edfirmin          #+#    #+#              #
-#    Updated: 2025/09/24 12:59:00 by edfirmin         ###   ########.fr        #
+#    Updated: 2025/10/15 10:40:42 by edfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	gcc $(OBJ) -o $(NAME)
+	gcc $(OBJ) -o $(NAME) -lm
 
 clean :
 	rm -f $(OBJ)
