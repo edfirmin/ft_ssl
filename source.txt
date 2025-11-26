@@ -7,3 +7,7 @@ https://www.frameip.com/decrypter-dechiffrer-cracker-hash-md5/
 https://stackoverflow.com/questions/32933254/which-type-of-leftrotation-is-used-by-the-md5-hash-algorithm
 
 SHA256 Source:
+
+https://youtu.be/orIgy2MjqrA?si=VLTM0AC7-IDNq65R
+https://www.ssldragon.com/fr/blog/algorithme-sha-256/
+https://www.youtube.com/watch?v=5MiMK45gkTY&t=540s
