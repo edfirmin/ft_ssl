@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   md5.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:27:20 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/10/15 10:33:35 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:39:27 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ __uint32_t fonc_K(int i){
 
 #define leftrotate(x, c) (((x) << (c)) | ((x) >> (32-(c))))
 
-void md5(const __uint8_t *msg, int len, __uint8_t digest[16]) {
+void md5(const __uint8_t *msg, int len, __uint8_t outp[16]) {
     __uint32_t a0 = 0x67452301;// valeur arbitaire du RFC
     __uint32_t b0 = 0xefcdab89;// pareil
     __uint32_t c0 = 0x98badcfe;// pareil
@@ -78,10 +78,10 @@ void md5(const __uint8_t *msg, int len, __uint8_t digest[16]) {
         d0 += D;
     }
 
-    memcpy(digest, &a0, 4);
-    memcpy(digest + 4, &b0, 4);
-    memcpy(digest + 8, &c0, 4);
-    memcpy(digest+12, &d0, 4);
+    memcpy(outp, &a0, 4);
+    memcpy(outp + 4, &b0, 4);
+    memcpy(outp + 8, &c0, 4);
+    memcpy(outp+12, &d0, 4);
     free(msg_pad);
 }
 
