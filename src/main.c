@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:37:43 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/10/15 10:33:21 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:46:10 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ int main(int ac, char** av){
         j++;
     }
     // tab_free(flags);
-    __uint8_t result[16];
-    md5((const __uint8_t*)av[i + 2], ft_strlen(av[i + 2]), result);
 
-    printf("MD5(\"%s\") = ", av[i + 2]);
-    for (int r = 0; r < 16; r++)
-        printf("%02x", result[r]);
-    printf("\n");
-    // printf("la suite: %s\n", av[i + 2]);
-    // fonc[0] (&av[i + 2]);
+    // __uint8_t result[16];
+    // md5((const __uint8_t*)av[i + 2], ft_strlen(av[i + 2]), result);
+    // printf("MD5(\"%s\") = ", av[i + 2]);
+    // for (int r = 0; r < 16; r++)
+    //     printf("%02x", result[r]);
+    // printf("\n");
+
+    __uint8_t result[32];
+    sha256((const __uint8_t*)av[i + 2], ft_strlen(av[i + 2]), result);
+
     return (1);
 }

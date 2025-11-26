@@ -1,7 +1,6 @@
 Global:
 https://en.wikipedia.org/wiki/Bitwise_operations_in_C
 
-
 MD5 Source:
 https://fr.wikipedia.org/wiki/MD5
 https://youtu.be/WOdDBAvD9VY?si=qyF70PjVmnfYs_qs
