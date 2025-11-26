@@ -6,7 +6,7 @@
 /*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:27:05 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/11/26 10:05:57 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:53:38 by edfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static const __uint32_t K[64] = {
 
 
 void    sha256(const __uint8_t *msg, int len, __uint8_t outp[32]){
-    
+    __uint32_t H[8] ={0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
+
+    printf("la\n");
     return;
 }

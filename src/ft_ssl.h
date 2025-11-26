@@ -6,7 +6,7 @@
 /*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 12:46:59 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/11/26 10:05:42 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:54:25 by edfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void	*tab_free(char **tab);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 
-
 void    md5(const __uint8_t *msg, int len, __uint8_t outp[16]);
-
 void    sha256(const __uint8_t *msg, int len, __uint8_t outp[32]);
 
 #endif

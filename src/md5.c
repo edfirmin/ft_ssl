@@ -6,7 +6,7 @@
 /*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:27:20 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/11/26 09:39:27 by edilson          ###   ########.fr       */
+/*   Updated: 2025/11/26 10:34:37 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void md5(const __uint8_t *msg, int len, __uint8_t outp[16]) {
                 g = i;
             } else if (i < 32) {
                 F = (D & B) | ((~D) & C);
-                g = (5*i + 1) % 16;
+                g = (5 * i + 1) % 16;
             } else if (i < 48) {
                 F = B ^ C ^ D;
-                g = (3*i + 5) % 16;
+                g = (3 * i + 5) % 16;
             } else {
                 F = C ^ (B | (~D));
-                g = (7*i) % 16;
+                g = (7 * i) % 16;
             }
             __uint32_t tmp = D;
             D = C;
