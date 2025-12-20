@@ -1,5 +1,6 @@
 Global:
 https://en.wikipedia.org/wiki/Bitwise_operations_in_C
+https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/manipulation-des-bits/
 
 MD5 Source:
 https://fr.wikipedia.org/wiki/MD5

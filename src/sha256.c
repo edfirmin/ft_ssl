@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   sha256.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edfirmin <edfirmin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edilson <edilson@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 12:27:05 by edfirmin          #+#    #+#             */
-/*   Updated: 2025/11/26 10:53:38 by edfirmin         ###   ########.fr       */
+/*   Updated: 2025/12/10 15:19:00 by edilson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-#define ROTR(x,n) ((x >> n) | (x << (32-n)))
+#define SHR(x,n) (x >> n)
+#define ROTR(x,n) ((x >> n) | (x << (32 - n)))
 #define CH(x,y,z)  ((x & y) ^ (~x & z))
 #define MAJ(x,y,z) ((x & y) ^ (x & z) ^ (y & z))
 #define SIG0(x) (ROTR(x,2) ^ ROTR(x,13) ^ ROTR(x,22))
 #define SIG1(x) (ROTR(x,6) ^ ROTR(x,11) ^ ROTR(x,25))
-#define MSIG0(x) (ROTR(x,7) ^ ROTR(x,18) ^ (x >> 3))
-#define MSIG1(x) (ROTR(x,17) ^ ROTR(x,19) ^ (x >> 10))
+#define MSIG0(x) (ROTR(x,7) ^ ROTR(x,18) ^ SHR(x,3))
+#define MSIG1(x) (ROTR(x,17) ^ ROTR(x,19) ^ SHR(x,10))
 
 static const __uint32_t K[64] = {
     0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
@@ -33,9 +34,101 @@ static const __uint32_t K[64] = {
 
 
 
-void    sha256(const __uint8_t *msg, int len, __uint8_t outp[32]){
-    __uint32_t H[8] ={0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
+// void    sha256(const __uint8_t *msg, int len, __uint8_t outp[32]){
+//     __uint32_t H[8] ={0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
 
-    printf("la\n");
-    return;
+//     printf("la\n");
+//     return;
+// }
+
+void hashin(uint32_t H[8], const uint8_t msg[64])
+{
+    uint32_t W[64];
+    uint32_t a,b,c,d,e,f,g,h;
+    uint32_t T1;
+    uint32_t T2;
+
+    for (int t = 0; t < 16; t++) {
+        W[t]  = (msg[t * 4]   << 24);
+        W[t] |= (msg[t * 4 + 1] << 16);
+        W[t] |= (msg[t * 4 + 2] <<  8);
+        W[t] |=  msg[t * 4 + 3];
+    }
+
+    for (int t = 16; t < 64; t++)
+        W[t] = MSIG1(W[t - 2]) + W[t - 7] + MSIG0(W[t - 15]) + W[t - 16];
+
+    a = H[0];
+    b = H[1];
+    c = H[2];
+    d = H[3];
+    e = H[4];
+    f = H[5];
+    g = H[6];
+    h = H[7];
+
+    for (int t = 0; t < 64; t++) {
+        T1 = h + SIG1(e) + CH(e,f,g) + K[t] + W[t];
+        T2 = SIG0(a) + MAJ(a,b,c);
+        h = g;
+        g = f;
+        f = e;
+        e = d + T1;
+        d = c;
+        c = b;
+        b = a;
+        a = T1 + T2;
+    }
+
+    H[0] += a;
+    H[1] += b;
+    H[2] += c;
+    H[3] += d;
+    H[4] += e;
+    H[5] += f;
+    H[6] += g;
+    H[7] += h;
 }
+
+void sha256(const __uint8_t *msg, int len, __uint8_t outp[32])
+{
+    uint32_t H[8] =
+    {
+        0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,
+        0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
+    };
+
+    uint8_t block[64];
+    size_t offset = 0;
+
+    while (len - offset >= 64) { // par block de 512 bits (64*8)
+        hashin(H, msg + offset);//
+        offset += 64;//
+    }
+
+    size_t r = len - offset;// apres la boucle, prends le reste et le met dans 'block' pour le padding et mettre la taille du message
+    memcpy(block, msg + offset, r);//
+
+    block[r++] = 0x80;//mettre un 1 en big-endien a la fin fu messgage
+
+    if (r > 56) {// si ya pas la place pour la taille du mesage, remplir de 0 pour cree un autre block
+        while (r < 64) block[r++] = 0;//
+        hashin(H, block);//
+        r = 0;//
+    }//
+    while (r < 56) block[r++] = 0;//
+
+    uint64_t bits = len * 8;//mettre la taille du message en big endien a la fin
+    for (int i = 0; i < 8; i++)//
+        block[63 - i] = (bits >> (8 * i)) & 0xff;//
+    hashin(H, block);//hash le dernier block
+
+    // memcpy(out, H, 32)
+    for (int i = 0; i < 8; i++) {//stock le hashage en big endien dans out
+        outp[4 * i + 0] = (H[i] >> 24) & 0xff;
+        outp[4 * i + 1] = (H[i] >> 16) & 0xff;
+        outp[4 * i + 2] = (H[i] >>  8) & 0xff;
+        outp[4 * i + 3] =  H[i] & 0xff;
+    }
+}
+
